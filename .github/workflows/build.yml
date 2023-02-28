@@ -68,6 +68,8 @@ jobs:
     name: Build Trevas Lab UI
     runs-on: ubuntu-latest
     steps:
+      - name: Clone Livrables CASD repository
+        uses: actions/checkout@v2
       - name: Clone Trevas Lab UI repository
         uses: actions/checkout@v2
         with:
