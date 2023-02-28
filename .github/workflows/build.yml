@@ -63,3 +63,27 @@ jobs:
         with:
           name: trevas-lab
           path: trevas-lab/target/war
+
+  trevas-lab-ui:
+    name: Build Trevas Lab UI
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone Trevas Lab UI repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
+          ref: master
+          repository: InseeFrLab/Trevas-Lab-UI
+          path: trevas-lab-ui
+      - uses: actions/setup-node@v2.1.3
+      - name: Build
+        run: |
+          yarn
+          yarn build
+          REACT_APP_API_BASE_URL="http://localhost:8080" REACT_APP_MODULES=in-memory,spark/local REACT_APP_FILE_PATH_LOCATION=LOCAL npx embed-environnement-variables
+        working-directory: "./trevas-lab-ui"
+      - name: Upload Storybook artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: trevas-lab-ui
+          path: trevas-lab-ui/build
