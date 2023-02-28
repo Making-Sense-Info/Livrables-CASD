@@ -62,4 +62,4 @@ jobs:
         uses: actions/upload-artifact@master
         with:
           name: trevas-lab
-          path: trevas-lab/target/jar
+          path: trevas-lab/target/war
