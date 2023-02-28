@@ -1,0 +1,63 @@
+name: Custom CASD app builds
+
+on: [workflow_dispatch]
+
+jobs:
+  trevas-jupyter:
+    name: Build Trevas Jupyter
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone Trevas Jupyter repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
+          ref: standalone-0.1.13
+          repository: Making-Sense-Info/Trevas-Jupyter
+          path: trevas-jupyter
+      - name: Set up JDK 11
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+      - name: Build with Maven
+        run: mvn -B clean package -DskipTests
+        working-directory: './trevas-jupyter'
+      - run: cp ./trevas-jupyter/kernel-windows.json ./trevas-jupyter/target/appassembler/kernel.json
+      - name: Upload Trevas Jupyter into trevas-jupyter archive
+        uses: actions/upload-artifact@master
+        with:
+          name: trevas-jupyter
+          path: trevas-jupyter/target/appassembler
+
+  trevas-lab:
+    name: Build Trevas Lab
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone Trevas Lab repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
+          ref: master
+          repository: InseeFrLab/Trevas-Lab
+          path: trevas-lab
+      - name: Set up JDK 11
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+      - uses: s4u/maven-settings-action@v2.8.0
+        with:
+          githubServer: false
+          servers: |
+            [{
+                "id": "Github",
+                "username": "${{ secrets.GH_PACKAGES_USERNAME }}",
+                "password": "${{ secrets.GH_PACKAGES_PASSWORD }}"
+            }]
+      - name: Build with Maven
+        run: mvn -B clean package war:war -DskipTests
+        working-directory: './trevas-lab'
+      - run: cp ./trevas-lab/target/trevas-lab*.jar.original ./trevas-lab/jar/trevas-lab.jar
+      - name: Upload Trevas Lab into trevas-lab archive
+        uses: actions/upload-artifact@master
+        with:
+          name: trevas-lab
+          path: trevas-lab/target/jar
