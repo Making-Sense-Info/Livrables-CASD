@@ -55,6 +55,8 @@ jobs:
       - name: Build with Maven
         run: mvn -B clean package war:war -DskipTests
         working-directory: "./trevas-lab"
+      - run: mkdir war
+        working-directory: "./trevas-lab/target"
       - run: cp ./trevas-lab/target/trevas-lab-*.war ./trevas-lab/target/war/trevas-lab.war
       - name: Upload Trevas Lab into trevas-lab archive
         uses: actions/upload-artifact@master
