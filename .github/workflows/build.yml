@@ -86,7 +86,7 @@ jobs:
           yarn build
           REACT_APP_API_BASE_URL="http://localhost:8080" REACT_APP_MODULES=in-memory,spark/local REACT_APP_FILE_PATH_LOCATION=LOCAL npx embed-environnement-variables
         working-directory: "./trevas-lab-ui"
-      - run: cp ./trevas-lab-ui-config/ ./trevas-lab-ui/
+      - run: cp -r ./trevas-lab-ui-config/ ./trevas-lab-ui/
       - name: Upload Trevas Lab UI artifact
         uses: actions/upload-artifact@v2
         with:
