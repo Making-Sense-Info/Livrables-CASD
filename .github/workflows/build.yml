@@ -20,7 +20,7 @@ jobs:
           java-version: 11
       - name: Build with Maven
         run: mvn -B clean package -DskipTests
-        working-directory: './trevas-jupyter'
+        working-directory: "./trevas-jupyter"
       - run: cp ./trevas-jupyter/kernel-windows.json ./trevas-jupyter/target/appassembler/kernel.json
       - name: Upload Trevas Jupyter into trevas-jupyter archive
         uses: actions/upload-artifact@master
@@ -54,8 +54,8 @@ jobs:
             }]
       - name: Build with Maven
         run: mvn -B clean package war:war -DskipTests
-        working-directory: './trevas-lab'
-      - run: cp ./trevas-lab/target/trevas-lab*.jar.original ./trevas-lab/jar/trevas-lab.jar
+        working-directory: "./trevas-lab"
+      - run: cp ./trevas-lab/target/trevas-lab-*.war ./trevas-lab/target/war/trevas-lab.war
       - name: Upload Trevas Lab into trevas-lab archive
         uses: actions/upload-artifact@master
         with:
