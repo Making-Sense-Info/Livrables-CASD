@@ -44,5 +44,5 @@ jobs:
       - name: Upload Trevas Jupyter into trevas-jupyter archive
         uses: actions/upload-artifact@master
         with:
-          name: trevas-jupyter
+          name: trevas-jupyter:${{ inputs.version }}
           path: trevas-jupyter/target/appassembler
