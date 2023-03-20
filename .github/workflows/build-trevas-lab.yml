@@ -1,33 +1,26 @@
-name: Custom CASD app builds
+name: Custom CASD Trevas Lab
 
-on: [workflow_dispatch]
+on:
+  workflow_dispatch:
+    inputs:
+      api_version:
+        description: "Trevas Lab version"
+        required: true
+        default: "0.1.0"
+        type: choice
+        options:
+          - 0.1.0
+          - master
+      ui_version:
+        description: "Trevas Lab UI version"
+        required: true
+        default: "0.5.0"
+        type: choice
+        options:
+          - 0.5.0
+          - master
 
 jobs:
-  trevas-jupyter:
-    name: Build Trevas Jupyter
-    runs-on: ubuntu-latest
-    steps:
-      - name: Clone Trevas Jupyter repository
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 1
-          ref: standalone-0.1.13
-          repository: Making-Sense-Info/Trevas-Jupyter
-          path: trevas-jupyter
-      - name: Set up JDK 11
-        uses: actions/setup-java@v1
-        with:
-          java-version: 11
-      - name: Build with Maven
-        run: mvn -B clean package -DskipTests
-        working-directory: "./trevas-jupyter"
-      - run: cp ./trevas-jupyter/kernel-windows.json ./trevas-jupyter/target/appassembler/kernel.json
-      - name: Upload Trevas Jupyter into trevas-jupyter archive
-        uses: actions/upload-artifact@master
-        with:
-          name: trevas-jupyter
-          path: trevas-jupyter/target/appassembler
-
   trevas-lab:
     name: Build Trevas Lab
     runs-on: ubuntu-latest
@@ -36,7 +29,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 1
-          ref: master
+          ref: ${{ inputs.api_version }}
           repository: InseeFrLab/Trevas-Lab
           path: trevas-lab
       - name: Set up JDK 11
@@ -74,7 +67,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 1
-          ref: master
+          ref: ${{ inputs.ui_version }}
           repository: InseeFrLab/Trevas-Lab-UI
           path: trevas-lab-ui
       - uses: actions/setup-node@v3
