@@ -54,7 +54,7 @@ jobs:
       - name: Upload Trevas Lab into trevas-lab archive
         uses: actions/upload-artifact@master
         with:
-          name: trevas-lab:${{ inputs.api_version }}
+          name: trevas-lab-${{ inputs.api_version }}
           path: trevas-lab/target/war
 
   trevas-lab-ui:
@@ -83,5 +83,5 @@ jobs:
       - name: Upload Trevas Lab UI artifact
         uses: actions/upload-artifact@v2
         with:
-          name: trevas-lab-ui:${{ inputs.ui_version }}
+          name: trevas-lab-ui-${{ inputs.ui_version }}
           path: trevas-lab-ui/build
