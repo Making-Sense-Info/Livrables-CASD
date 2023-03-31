@@ -50,7 +50,7 @@ jobs:
         working-directory: "./trevas-lab"
       - run: mkdir war
         working-directory: "./trevas-lab/target"
-      - run: cp ./trevas-lab/target/trevas-lab-*.war ./trevas-lab/target/war/trevas-lab.war
+      - run: cp ./trevas-lab/target/trevas-lab-*.war ./trevas-lab/target/war/trevas-lab-${{ inputs.api_version }}.war
       - name: Upload Trevas Lab into trevas-lab archive
         uses: actions/upload-artifact@master
         with:
