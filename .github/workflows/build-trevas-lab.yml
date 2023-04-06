@@ -73,6 +73,7 @@ jobs:
           do
             ARGS="$ARGS -D$item"
           done
+          echo "Args: $ARGS"
           mvn -B clean package war:war -DskipTests $ARGS
         working-directory: "./trevas-lab"
       - run: mkdir war
