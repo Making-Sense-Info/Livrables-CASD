@@ -6,28 +6,19 @@ on:
       api_version:
         description: "Trevas Lab version"
         required: true
-        default: "0.1.0"
+        default: "0.3.0"
         type: choice
         options:
-          - 0.1.0
+          - 0.3.0
           - master
       ui_version:
         description: "Trevas Lab UI version"
         required: true
-        default: "0.5.0"
+        default: "0.6.0"
         type: choice
         options:
-          - 0.5.0
+          - 0.6.0
           - master
-      spark_mode:
-        description: "Spark execution mode"
-        required: true
-        default: "spark/local"
-        type: choice
-        options:
-          - "spark/local"
-          - "spark/static"
-          - "spark/kubernetes"
       spark_properties:
         description: 'Spark engine properties (SPARk_KEY=value, no whitespace, "," separator)'
         required: false
@@ -105,7 +96,7 @@ jobs:
         run: |
           yarn
           yarn build
-          REACT_APP_API_BASE_URL="http://localhost:8080" REACT_APP_MODULES=in-memory,${{ inputs.spark_mode }} REACT_APP_FILE_PATH_LOCATION=LOCAL npx embed-environnement-variables
+          REACT_APP_API_BASE_URL="http://localhost:8080" REACT_APP_MODULES=in-memory,spark REACT_APP_FILE_PATH_LOCATION=LOCAL npx embed-environnement-variables
         working-directory: "./trevas-lab-ui"
       - run: cp ./trevas-lab-ui-config/web.config ./trevas-lab-ui/build/web.config
       - name: Upload Trevas Lab UI artifact
