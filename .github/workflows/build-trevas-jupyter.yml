@@ -6,11 +6,10 @@ on:
       version:
         description: "Trevas Jupyter version"
         required: true
-        default: "standalone-0.2.0"
+        default: "standalone-0.3.2"
         type: choice
         options:
-          - standalone-0.2.0
-          - standalone-0.1.13
+          - standalone-0.3.2
 
 jobs:
   trevas-jupyter:

@@ -6,11 +6,10 @@ on:
       api_version:
         description: "Trevas Lab version"
         required: true
-        default: "0.3.1"
+        default: "0.3.3"
         type: choice
         options:
-          - 0.3.1
-          - master
+          - 0.3.3
       ui_version:
         description: "Trevas Lab UI version"
         required: true
@@ -18,7 +17,6 @@ on:
         type: choice
         options:
           - 0.6.0
-          - master
       spark_properties:
         description: 'Spark engine properties (SPARk_KEY=value, no whitespace, "," separator)'
         required: false
