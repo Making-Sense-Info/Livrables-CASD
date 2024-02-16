@@ -6,17 +6,17 @@ on:
       api_version:
         description: "Trevas Lab version"
         required: true
-        default: "0.4.1"
+        default: "0.5.1"
         type: choice
         options:
-          - 0.4.1
+          - 0.5.1
       ui_version:
         description: "Trevas Lab UI version"
         required: true
-        default: "0.6.1"
+        default: "0.7.2"
         type: choice
         options:
-          - 0.6.1
+          - 0.7.2
       spark_properties:
         description: 'Spark engine properties (SPARk_KEY=value, no whitespace, "," separator)'
         required: false
@@ -29,16 +29,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Clone Trevas Lab repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           fetch-depth: 1
           ref: ${{ inputs.api_version }}
           repository: InseeFrLab/Trevas-Lab
           path: trevas-lab
-      - name: Set up JDK 11
-        uses: actions/setup-java@v1
+      - name: Set up Maven Central Repository
+        uses: actions/setup-java@v4
         with:
-          java-version: 11
+          java-version: 17
+          distribution: "adopt"
       - uses: s4u/maven-settings-action@v2.8.0
         with:
           githubServer: false
@@ -69,7 +70,7 @@ jobs:
         working-directory: "./trevas-lab/target"
       - run: cp ./trevas-lab/target/trevas-lab-*.war ./trevas-lab/target/war/trevas-lab-${{ inputs.api_version }}.war
       - name: Upload Trevas Lab into trevas-lab archive
-        uses: actions/upload-artifact@master
+        uses: actions/upload-artifact@v4
         with:
           name: trevas-lab-${{ inputs.api_version }}
           path: trevas-lab/target/war
@@ -79,17 +80,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Clone Livrables CASD repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Clone Trevas Lab UI repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           fetch-depth: 1
           ref: ${{ inputs.ui_version }}
           repository: InseeFrLab/Trevas-Lab-UI
           path: trevas-lab-ui
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
-          node-version: 16
+          node-version: 16.19.0
       - name: Build
         run: |
           yarn
@@ -98,7 +99,7 @@ jobs:
         working-directory: "./trevas-lab-ui"
       - run: cp ./trevas-lab-ui-config/web.config ./trevas-lab-ui/build/web.config
       - name: Upload Trevas Lab UI artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: trevas-lab-ui-${{ inputs.ui_version }}
           path: trevas-lab-ui/build
